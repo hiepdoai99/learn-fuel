@@ -1,0 +1,9 @@
+<ul class="nav nav-pills">
+	<li class='<?php echo Arr::get($subnav, "index" ); ?>'><?php echo Html::anchor('user/index','Index');?></li>
+	<li class='<?php echo Arr::get($subnav, "view" ); ?>'><?php echo Html::anchor('user/view','View');?></li>
+	<li class='<?php echo Arr::get($subnav, "create" ); ?>'><?php echo Html::anchor('user/create','Create');?></li>
+	<li class='<?php echo Arr::get($subnav, "edit" ); ?>'><?php echo Html::anchor('user/edit','Edit');?></li>
+	<li class='<?php echo Arr::get($subnav, "delete" ); ?>'><?php echo Html::anchor('user/delete','Delete');?></li>
+
+</ul>
+<p>Delete</p>
