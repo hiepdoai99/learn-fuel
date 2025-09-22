@@ -38,11 +38,11 @@ return array(
     'admin/room/edit/(:num)' => 'admin/room/edit/$1',
     'admin/room/delete/(:num)' => 'admin/room/delete/$1',
 
-    'admin/province' => 'admin/province/index',
-    'admin/province/create' => 'admin/province/create',
-    'admin/province/edit/(:num)' => 'admin/province/edit/$1',
-    'admin/province/delete/(:num)' => 'admin/province/delete/$1',
-    'admin/province/view/(:num)' => 'admin/province/view/$1',
+    // 'admin/province' => 'admin/province/index',
+    // 'admin/province/create' => 'admin/province/create',
+    // 'admin/province/edit/(:num)' => 'admin/province/edit/$1',
+    // 'admin/province/delete/(:num)' => 'admin/province/delete/$1',
+    // 'admin/province/view/(:num)' => 'admin/province/view/$1',
 
     'admin/booking' => 'admin/booking/index',
     'admin/booking/view/(:num)' => 'admin/booking/view/$1',

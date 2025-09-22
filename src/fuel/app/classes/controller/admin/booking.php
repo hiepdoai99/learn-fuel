@@ -6,27 +6,68 @@ class Controller_Admin_Booking extends Controller_Admin_Base
 
     public function action_index()
     {
-
         $query = Model_Booking::query()
-            ->related('room')       // load room trước
-            ->related('room.hotel'); // rồi mới load hotel
+            ->related('room')
+            ->related('room.hotel')
+            ->related('room.hotel.province');
 
-        // Lọc theo keyword
-        $keyword = Input::get('q');
-        if ($keyword) {
-            $query->where_open()
-                ->where('customer_name', 'like', "%$keyword%")
-                ->or_where('customer_email', 'like', "%$keyword%")
-                ->or_where('customer_phone', 'like', "%$keyword%")
-                ->or_where('room.hotel.name', 'like', "%$keyword%")
-                ->where_close();
+        $filters = \Input::get();
+
+        if ($name = \Arr::get($filters, 'name')) {
+            $query->where('customer_name', 'like', "%$name%");
+        }
+        if ($email = \Arr::get($filters, 'email')) {
+            $query->where('customer_email', 'like', "%$email%");
+        }
+        if ($phone = \Arr::get($filters, 'phone')) {
+            $query->where('customer_phone', 'like', "%$phone%");
+        }
+        if ($province_id = \Arr::get($filters, 'province_id')) {
+            $query->where('room.hotel.province_id', $province_id);
+        }
+        if ($hotel_id = \Arr::get($filters, 'hotel_id')) {
+            $query->where('room.hotel.id', $hotel_id);
+        }
+        if ($room_id = \Arr::get($filters, 'room_id')) {
+            $query->where('room_id', $room_id);
+        }
+        if ($check_in = \Arr::get($filters, 'check_in')) {
+            $query->where('check_in', '>=', $check_in);
+        }
+        if ($check_out = \Arr::get($filters, 'check_out')) {
+            $query->where('check_out', '<=', $check_out);
         }
 
-        $data['bookings'] = $query->get();
+        $query->order_by('id', 'desc');
+
+        $total_items = $query->count();
+
+        $pager_params = \Input::get();
+        unset($pager_params['page']);
+
+        $pagination_url = \Uri::current() . '?' . http_build_query($pager_params);
+
+        $config = [
+            'pagination_url' => $pagination_url,
+            'total_items' => $total_items,
+            'per_page' => 10,
+            'uri_segment' => 'page', 
+            'uri_segment_for_get_params' => true, 
+        ];
+
+        $pager = \Pagination::forge('bookings', $config);
+
+        $data['bookings'] = $query
+            ->rows_offset($pager->offset)
+            ->rows_limit($pager->per_page)
+            ->get();
+
+        $data['pager_html'] = $pager->render();
 
         $this->template->title = "Bookings";
-        $this->template->content = View::forge('admin/booking/index', $data);
+        $this->template->content = \View::forge('admin/booking/index', $data);
     }
+
 
 
     public function action_view($id = null)

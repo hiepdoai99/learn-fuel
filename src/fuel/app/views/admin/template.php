@@ -42,6 +42,47 @@
             text-align: center;
             border-bottom: 1px solid #495057;
         }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            gap: 4px;
+        }
+
+        .pagination span {
+            display: inline-block;
+        }
+
+        .pagination a {
+            display: block;
+            padding: 6px 12px;
+            text-decoration: none;
+            border: 1px solid #dee2e6;
+            color: #007bff;
+            background-color: #fff;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            background-color: #e9ecef;
+            text-decoration: none;
+        }
+
+        .pagination .active a {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            cursor: default;
+        }
+
+        .pagination .previous-inactive a,
+        .pagination .next-inactive a {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 
@@ -52,9 +93,6 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a href="<?php echo Uri::create('admin/dashboard'); ?>"
                     class="nav-link <?php echo Uri::segment(2) == 'dashboard' ? 'active' : ''; ?>">📊 Dashboard</a></li>
-            <li><a href="<?php echo Uri::create('admin/province'); ?>"
-                    class="nav-link <?php echo Uri::segment(2) == 'province' ? 'active' : ''; ?>">🏙️ Tỉnh thành</a>
-            </li>
             <li><a href="<?php echo Uri::create('admin/hotel'); ?>"
                     class="nav-link <?php echo Uri::segment(2) == 'hotel' ? 'active' : ''; ?>">🏨 Khách sạn</a></li>
             <li><a href="<?php echo Uri::create('admin/room'); ?>"
@@ -75,18 +113,18 @@
     <!-- Content -->
     <div class="content">
         <?php if (Session::get_flash('success')): ?>
-			<div class="alert alert-success mt-3">
-				<strong>Success</strong>
-				<p><?php echo implode('</p><p>', e((array) Session::get_flash('success'))); ?></p>
-			</div>
-		<?php endif; ?>
+            <div class="alert alert-success mt-3">
+                <strong>Success</strong>
+                <p><?php echo implode('</p><p>', e((array) Session::get_flash('success'))); ?></p>
+            </div>
+        <?php endif; ?>
 
-		<?php if (Session::get_flash('error')): ?>
-			<div class="alert alert-danger mt-3">
-				<strong>Error</strong>
-				<p><?php echo implode('</p><p>', e((array) Session::get_flash('error'))); ?></p>
-			</div>
-		<?php endif; ?>
+        <?php if (Session::get_flash('error')): ?>
+            <div class="alert alert-danger mt-3">
+                <strong>Error</strong>
+                <p><?php echo implode('</p><p>', e((array) Session::get_flash('error'))); ?></p>
+            </div>
+        <?php endif; ?>
         <?php echo $content; ?>
     </div>
 
